@@ -1,6 +1,10 @@
+
 mod presentation;
 mod config;
 mod langs;
+mod arg_parser;
+
+
 use config::infrastructure::fs_config_repository::FsConfigRepository;
 use presentation::cli_header::cli_header;
 use std::env;
