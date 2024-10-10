@@ -1,4 +1,5 @@
 {
     "headers_doc": true,
-    "templates_root": "/Users/ennima/Devs/Tools/gen_v2/gen/templates"
+    "templates_root": "/Users/ennima/Devs/Tools/gen_v2/gen/templates",
+    "arq_file":"myarq.json"
 }

@@ -5,4 +5,5 @@ use serde::{Deserialize, Serialize};
 pub struct ConfigDTO {
     pub headers_doc: bool,
     pub templates_root: String,
+    pub arq_file: String,
 }
