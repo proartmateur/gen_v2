@@ -3,6 +3,7 @@ mod config;
 mod langs;
 mod presentation;
 mod routes;
+mod commands;
 
 use config::infrastructure::fs_config_repository::FsConfigRepository;
 use presentation::cli_header::cli_header;

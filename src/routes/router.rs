@@ -2,6 +2,7 @@ use std::process;
 use crate::arq::arq_io::read_arq_json;
 use crate::arq::arq_usecases::find_arq_item_by_option;
 use crate::config::domain::config::Config;
+use crate::commands::init::init;
 
 pub fn router(args: &Vec<String>,cfg:Config, help_callback: fn() -> ()) {
 
@@ -11,7 +12,7 @@ pub fn router(args: &Vec<String>,cfg:Config, help_callback: fn() -> ()) {
     }
 
     let first = args[1].clone();
-    if (first.contains("--") || first.contains("-")) {
+    if first.contains("--") || first.contains("-") {
         // template
         let path = &cfg.arq_file;
         match read_arq_json(path) {
@@ -35,11 +36,12 @@ pub fn router(args: &Vec<String>,cfg:Config, help_callback: fn() -> ()) {
         // command
         match first.as_str() {
             "init" => {
-                print!("{}","\nINIT ARQ\n");
+                init(&cfg.arq_file);
             },
             _ =>{
                 print!("{}","\nInvalid command\n");
             }
         }
+        process::exit(0x0100);
     }
 }
