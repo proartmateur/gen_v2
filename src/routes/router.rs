@@ -1,11 +1,14 @@
 use std::process;
 use crate::arq::arq_io::read_arq_json;
 use crate::arq::arq_usecases::find_arq_item_by_option;
-use crate::config::domain::config::Config;
+use crate::commands::arq::arq;
 use crate::commands::init::init;
+use crate::config::infrastructure::fs_config_repository::FsConfigRepository;
+use crate::langs::get_lang;
 
-pub fn router(args: &Vec<String>,cfg:Config, help_callback: fn() -> ()) {
-
+pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
+    let strings = get_lang(lang);
+    
     if args.len() < 2 {
         help_callback();
         process::exit(0x0100);
@@ -14,7 +17,9 @@ pub fn router(args: &Vec<String>,cfg:Config, help_callback: fn() -> ()) {
     let first = args[1].clone();
     if first.contains("--") || first.contains("-") {
         // template
-        let path = &cfg.arq_file;
+        let cfg_repo = FsConfigRepository { _init: () };
+        let config = cfg_repo.read();
+        let path = &config.arq_file;
         match read_arq_json(path) {
             Ok(arq_items) => {
                 //println!("Successfully parsed Arq JSON: {:#?}", arq_items);
@@ -36,7 +41,12 @@ pub fn router(args: &Vec<String>,cfg:Config, help_callback: fn() -> ()) {
         // command
         match first.as_str() {
             "init" => {
-                init(&cfg.arq_file);
+                init(strings);
+            },
+            "arq" => {
+                let cfg_repo = FsConfigRepository { _init: () };
+                let config = cfg_repo.read();
+                arq(&config.arq_file);
             },
             _ =>{
                 print!("{}","\nInvalid command\n");
