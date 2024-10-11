@@ -16,4 +16,6 @@ pub struct EnvVars {
     pub author_name: Option<String>,
     pub author_email: Option<String>,
     pub now: Option<String>,
+    pub path: String,
+    pub dq: String,
 }

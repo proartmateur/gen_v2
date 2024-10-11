@@ -12,10 +12,19 @@ pub fn env_mapper(template: &ArqItem, name: &String, cfg: &Config, props: Option
     match props {
         Some(p) => {
             attrs = Some(p.clone());
-            pretty_attrs = Some(p.clone().replace(",", ",\n"));
+            let mut attrs_s = attrs.unwrap();
+            if attrs_s.contains("_") {
+                attrs = Some(attrs_s.replace("_", " "));
+                attrs_s = attrs_s.replace("_", " ");
+            } else {
+                attrs = Some(attrs_s.clone());
+            }
+            pretty_attrs = Some(attrs_s.clone().replace(",", ",\n"));
         },
         None => {}
     }
+
+    //TODO Prop Separation
     return EnvVars {
         raw_name: name.clone(),
         entity_name: snake_to_pascal_case(&name.to_lowercase().as_str()),
@@ -28,8 +37,10 @@ pub fn env_mapper(template: &ArqItem, name: &String, cfg: &Config, props: Option
         snake_separated_props: None,
         entity_separated_props: None,
         camel_separated_props: None,
-        author_name: Some("".to_string()),
-        author_email: Some("".to_string()),
+        author_name: cfg.author.clone(),
+        author_email: cfg.author_email.clone(),
         now: Some(Utc::now().to_string()),
+        path: template.path.clone(),
+        dq: String::from("\"")
     }
 }

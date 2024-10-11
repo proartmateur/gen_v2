@@ -8,35 +8,36 @@
     "templates": [
       {
         "template": "/atom/component.jsx",
-        "destination": "<path>/<Ent>.jsx"
+        "destination": "<path>/<ent>.jsx"
       }
     ]
   },
   {
     "name": "component",
-    "path": "/src/<Ent>",
+    "path": "/src/<ent>",
     "short_option": "-c",
     "option": "--component",
     "description": "backend DDD component",
     "has_props": true,
+    "prop_type_place":2,
     "templates": [
       {
         "template": "/ddd/domain/IRepositiry.ts",
-        "destination": "<path>/domain/<Ent>Repository.ts"
+        "destination": "<path>/domain/<ent>Repository.ts"
       },
       {
         "template": "/ddd/domain/Model.ts",
-        "destination": "<path>/domain/<Ent>.ts",
-        "prop_naming": "<Prop>VO",
-        "per_prop_import": "import { <Prop>VO } from $dq$<path>/domain/value_objects/<Prop>VO$dq$"
+        "destination": "<path>/domain/<ent>.ts",
+        "prop_naming": "<prop>VO",
+        "per_prop_import": "import { <prop>VO } from $dq$<path>/domain/value_objects/<prop>VO$dq$"
       },
       {
         "template": "/ddd/domain/Dto.ts",
-        "destination": "<path>/domain/<Ent>DTO.ts"
+        "destination": "<path>/domain/<ent>DTO.ts"
       },
       {
         "template": "/ddd/domain/ValueObj.ts",
-        "destination": "<path>/domain/value_objects/<Prop>VO.ts",
+        "destination": "<path>/domain/value_objects/<prop>VO.ts",
         "per_prop": true
       }
     ]

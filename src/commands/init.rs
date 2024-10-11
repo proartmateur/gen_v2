@@ -20,6 +20,8 @@ pub fn init(lang: &LazyLock<HashMap<&str, &str>> ) -> () {
     let template_root = Path::new(&cwd.display().to_string()).join(&template_dir);
     let cfg: &'static str = "{
     \"headers_doc\": false,
+    \"author\": \"myself\",
+    \"author_email\": \"myself@example.com\",
     \"templates_root\": \"$CWD$\",
     \"arq_file\":\"arq.json\"
 }";
