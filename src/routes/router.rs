@@ -46,7 +46,7 @@ pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
             "arq" => {
                 let cfg_repo = FsConfigRepository { _init: () };
                 let config = cfg_repo.read();
-                arq(&config.arq_file);
+                arq(&config.arq_file, strings);
             },
             _ =>{
                 print!("{}","\nInvalid command\n");

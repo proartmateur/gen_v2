@@ -8,6 +8,10 @@ pub static EN_STRINGS: LazyLock<HashMap<&'static str, &'static str>> = LazyLock:
         ("init.already_exists", "already exists!"),
         ("init.mkdir_error", "Error to make dir"),
         ("init.write_file_error", "could not create file"),
-        ("init.ready_for_init", "Ready for init"),
+        ("init.ready_for_init", "Ready for arq"),
+        ("arq.is_ready", "is ready!"),
+        ("arq.writing", "Writing:"),
+        ("arq.error_make_atom_dir", "Error: Could not create atom directory."),
+        ("arq.panic_gen_dir", "Error: Not found: .gen_cli/templates.\n Try to run: gen init"),
     ])
 });
