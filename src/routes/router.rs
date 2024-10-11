@@ -6,6 +6,7 @@ use crate::commands::init::init;
 use crate::config::infrastructure::fs_config_repository::FsConfigRepository;
 use crate::langs::get_lang;
 use crate::environment::env_mapper::env_mapper;
+use crate::commands::man_vars::man_vars;
 
 pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
     let strings = get_lang(lang);
@@ -56,6 +57,9 @@ pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
                 let cfg_repo = FsConfigRepository { _init: () };
                 let config = cfg_repo.read();
                 arq(&config.arq_file, strings);
+            },
+            "man:vars" => {
+                man_vars();
             },
             _ =>{
                 print!("{}","\nInvalid command\n");
