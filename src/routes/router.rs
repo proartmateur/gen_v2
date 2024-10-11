@@ -5,6 +5,7 @@ use crate::commands::arq::arq;
 use crate::commands::init::init;
 use crate::config::infrastructure::fs_config_repository::FsConfigRepository;
 use crate::langs::get_lang;
+use crate::environment::env_mapper::env_mapper;
 
 pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
     let strings = get_lang(lang);
@@ -20,12 +21,20 @@ pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
         let cfg_repo = FsConfigRepository { _init: () };
         let config = cfg_repo.read();
         let path = &config.arq_file;
+        let mut props = None;
+        if args.len() >= 4 {
+            props = Some(args[3].clone());
+        }
+
         match read_arq_json(path) {
             Ok(arq_items) => {
                 //println!("Successfully parsed Arq JSON: {:#?}", arq_items);
                 // Test the function with a valid short_option
                 if let Some(found_item) = find_arq_item_by_option(&arq_items, &first) {
-                    println!("Found item by short_option: {:#?}", found_item);
+                    println!("Found item by short_option: {:#?}", &found_item);
+                    let name =  &args[2];
+                    let env_vars = env_mapper(&found_item, &name, &config, props);
+                    print!("{:?}", env_vars);
                 } else {
                     println!("Option not found.");
                     help_callback();

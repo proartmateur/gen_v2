@@ -1,0 +1,15 @@
+[
+  {
+    "name": "atom",
+    "path": "/src/atoms",
+    "short_option": "-a",
+    "option": "--atom",
+    "description": "frontend atom component",
+    "templates": [
+      {
+        "template": "/atom/component.tsx",
+        "destination": "<path>/<Ent>.tsx"
+      }
+    ]
+  }
+]
