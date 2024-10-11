@@ -8,6 +8,9 @@ pub fn cli_config_mapper(dto: &ConfigDTO) -> Config {
     return Config { 
         headers_doc: dto.headers_doc.clone(),
         templates_root: dto.templates_root.clone(),
-        current_dir: String::from(current_dir.to_str().unwrap())
+        author: dto.author.clone(),
+        author_email: dto.author_email.clone(),
+        current_dir: String::from(current_dir.to_str().unwrap()),
+        arq_file: dto.arq_file.clone()
     };
 }

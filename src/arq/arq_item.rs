@@ -11,4 +11,5 @@ pub struct ArqItem {
     pub description: String,
     pub templates: Vec<ArqTemplate>,
     pub has_props: Option<bool>,
+    pub prop_type_place: Option<u8>
 }

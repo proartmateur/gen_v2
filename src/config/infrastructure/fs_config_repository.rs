@@ -20,7 +20,7 @@ impl FsConfigRepository {
                 return cli_config_mapper(&config);
             }
             Err(error) => {
-                print!("{}", ConfigError::ReadError("{gen_config.json} not exists :(".to_string()));
+                print!("{}", ConfigError::ReadError("{gen_config.json} not exists :(\n Try run: gen init\n".to_string()));
                 panic!("{}", error.to_string().red());
             }
         }
