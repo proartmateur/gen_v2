@@ -1,8 +1,8 @@
 use gen::arg_parser::types::OptionData;
 use gen::arg_parser::core::process_args;
 
-#[cfg(test)]
-mod tests {
+//#[cfg(test)]
+mod testis {
     use super::*;
     use serde_json::json;
 

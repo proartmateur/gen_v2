@@ -1,0 +1,176 @@
+fn template_replacer
+inputs
+
+vars: EnvVars
+template: String 
+
+
+output 
+replaced_template: String
+
+test cases
+
+$var$ 
+
+<var>
+
+empty template
+
+UseCases
+
+BasicCodeGeneration
+- SingleTemplate
+- DestinationPathTemplate
+
+for each ArqTemplate in ArqItem
+1. create file in destinationPathTemplate
+1.5 create needed folders if it's necessary 
+2. write SingleTemplate as content
+
+
+RelatedPrefixTemplate
+RelatedSuffixTemplate
+RelatedSpecificTemplate
+PropTemplate
+
+
+
+
+
+Feature Pretty Prop without type 
+
+rules in props _ will be replaced with space
+a prop is separated by colon ,
+
+name:string,age:number 
+string_name,int_age
+name_string,age_int
+
+example 1:
+
+age:number
+
+type_separator: ":"
+prop_place: 1
+prop_type: 2
+
+
+example 2:
+
+int age
+
+type_separator: " "
+prop_place: 2
+prop_type: 1
+
+
+example 3:
+
+age int
+
+type_separator: " "
+prop_place: 1
+prop_type: 2
+
+
+example 4:
+
+private_readonly_age:number 
+
+type_separator: " "
+prop_place: 1
+prop_type: 2
+prefix: "private readonly "
+
+struct PropStyle {
+  pub type_separator: Option<char>,
+  pub prop_place: u8,
+  pub prop_type: Option<u8>,
+  pub prefix: Option<String>
+}
+
+struct PropVar {
+    name: String,
+    prop_type: String,
+    prefix: String,
+    entity_name: String,
+    snake_name: String,
+    camel_name: String,
+    kebab_name: String,
+}
+
+Algorithm (props: str, style: PropStyle) -> PropVar
+0. replace _ with space
+1. Separate props siplit by colon ,
+2. for each prop_item
+    
+    3.1 if prefix is not None
+             3.2 sm = split ss[prop_place -1]
+             3.3 get prop_typed= sm[1]
+             3.4 get prefix = sm[0]
+             3.4.1 if type_separator is None
+                           get prop = prop_typed
+                       else
+                          3.5 ss = split by type_separator
+                          3.6 get prop = ss[prop_place -1]
+          else
+              if type_separator is None
+                  get prop = prop_item
+              else
+                  4. get prop ss[prop_place -1]
+    5. get type ss[prop_type -1]
+    6. create PropVar
+    7. append to result
+8. return result
+
+
+Test cases
+
+1: prefix class
+
+class $ent$ {
+	$prop_prefix$ $prop_name$,
+}
+
+assert. args: <option> user_profile public_name:string,public_age: number
+
+type_separator: ":"
+prop_place: 1
+prop_type: 2
+prefix: "public_ "
+
+
+class UserProfile {
+	public name: string,
+	public age: number 
+}
+
+
+
+
+
+2: prefix constructor class
+
+class <ent> {
+	constructor(
+	$prop_prefix$ $prop_name$,
+	){}
+}
+
+assert. args: <option> user_profile private_readonly_name:string,private_readonly_age: number
+
+type_separator: ":"
+prop_place: 1
+prop_type: 2
+prefix: "private_readonly_"
+
+class UserProfile {
+	constructor(
+	   private readonly name: string,
+	   private readonly age: number,
+	){}
+}
+
+
+3: Java like class with prefix
+

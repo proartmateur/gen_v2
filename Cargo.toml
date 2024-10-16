@@ -4,6 +4,10 @@ version = "2.0.0"
 edition = "2021"
 authors = ["Enrique Nieto Matinez <ennimandroid@gmail.com>"]
 
+[profile.dev]
+debug = true
+
+
 [lib]
 name = "gen"
 path = "src/lib.rs"
