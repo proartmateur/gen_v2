@@ -1,17 +1,7 @@
-mod arq;
-//mod config;
-mod langs;
-mod utils;
-mod presentation;
-mod routes;
-mod commands;
-//mod environment;
-
-
-use presentation::cli_header::cli_header;
-use presentation::help::help;
+use gen::presentation::cli_header::cli_header;
+use gen::presentation::help::help;
 use std::env;
-use crate::routes::router::router;
+use gen::routes::router::router;
 
 fn main() {
     let version = "2.0.0".to_string();

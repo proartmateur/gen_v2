@@ -1,6 +1,5 @@
 extern crate colored;
 use colored::*;
-
 use crate::langs::get_lang;
 
 pub fn cli_header(version: &String, lang: &String) -> () {

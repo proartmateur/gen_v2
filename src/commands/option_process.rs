@@ -1,10 +1,8 @@
 use std::process;
-use gen::arq::arq_io::read_arq_json;
-use gen::arq::arq_usecases::find_arq_item_by_option;
-
-//use super::super::config::domain::config::Config;
-use gen::config::domain::config::Config;
-use gen::environment::env_mapper::env_mapper;
+use crate::arq::arq_io::read_arq_json;
+use crate::arq::arq_usecases::find_arq_item_by_option;
+use crate::config::domain::config::Config;
+use crate::environment::env_mapper::env_mapper;
 pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -> ()) -> () {
     let first = args[1].clone();
     let path = &config.arq_file;

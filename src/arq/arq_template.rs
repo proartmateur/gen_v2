@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-// Define the ArqTemplate struct equivalent to the TypeScript interface
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ArqTemplate {
     pub template: String,

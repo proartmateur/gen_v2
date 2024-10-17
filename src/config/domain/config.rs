@@ -1,6 +1,5 @@
 // The Config
 pub struct Config {
-    //pub headers_doc: bool,
     pub author: Option<String>,
     pub author_email: Option<String>,
     pub templates_root: String,

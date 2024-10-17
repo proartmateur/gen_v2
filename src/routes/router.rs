@@ -1,15 +1,10 @@
 use std::process;
-use crate::arq::arq_io::read_arq_json;
-use crate::arq::arq_usecases::find_arq_item_by_option;
 use crate::commands::arq::arq;
 use crate::commands::init::init;
 use crate::commands::option_process::option_process;
-//use gen::config::domain::config::Config;
-//use super::super::config::domain::config::Config;
-use gen::config::domain::config::Config;
-use gen::config::infrastructure::fs_config_repository::FsConfigRepository;
+use crate::config::domain::config::Config;
+use crate::config::infrastructure::fs_config_repository::FsConfigRepository;
 use crate::langs::get_lang;
-use gen::environment::env_mapper::env_mapper;
 use crate::commands::man_vars::man_vars;
 
 pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {

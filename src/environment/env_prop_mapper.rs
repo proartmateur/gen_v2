@@ -1,4 +1,4 @@
-use super::super::utils::string_transform::{snake_to_camel_case, snake_to_pascal_case};
+use crate::utils::string_transform::{snake_to_camel_case, snake_to_pascal_case};
 use super::{prop_style::PropStyle, prop_vars::PropVars};
 
 pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
