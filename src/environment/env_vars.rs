@@ -1,7 +1,4 @@
-//use std::collections::HashMap;
-
 use super::prop_vars::PropVars;
-
 
 #[derive(Debug)]
 pub struct EnvVars {

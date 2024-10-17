@@ -17,13 +17,9 @@ $inline_props$ or <inline_props> : Props as you writed in command line
 
 $pretty_props$ or <pretty_props> : Props with line breaks after colon ','
 
-$snake_separated_props$ or <snake_separated_props> : Coming soon
+($prop$) or (<prop>) : Write prop name for each prop
 
-$entity_separated_props$ or <entity_separated_props> : Coming soon
-
-$camel_separated_props$ or <camel_separated_props> : Coming soon
-
-$prop$ or <prop> : Coming soon
+($prop$, ) or (<prop>, ) : Write 'prop_name, ' for each prop
 
 $author_name$ or <author_name> : Who is coding. Can be edited inside the gen_config.json file
 
