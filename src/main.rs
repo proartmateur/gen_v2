@@ -1,11 +1,11 @@
 mod arq;
-mod config;
+//mod config;
 mod langs;
 mod utils;
 mod presentation;
 mod routes;
 mod commands;
-mod environment;
+//mod environment;
 
 
 use presentation::cli_header::cli_header;

@@ -1,8 +1,8 @@
 use std::env;
 
-use super::super::domain::config::Config;
-use super::super::domain::config_dto::ConfigDTO;
-
+//use super::super::domain::config::Config;
+//use super::super::domain::config_dto::ConfigDTO;
+use crate::config::domain::{config::Config, config_dto::ConfigDTO};
 pub fn cli_config_mapper(dto: &ConfigDTO) -> Config {
     let current_dir = env::current_dir().unwrap();
     return Config { 

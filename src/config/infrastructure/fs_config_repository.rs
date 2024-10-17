@@ -3,10 +3,10 @@ extern crate colored;
 use colored::*;
 
 use super::cli_config_mapper::cli_config_mapper;
-use crate::config::domain::{config::Config, config_dto::ConfigDTO, read_config_error::ConfigError};
-
+//use super::domain::{config::Config, config_dto::ConfigDTO, read_config_error::ConfigError};
+use super::super::domain::{config::Config, config_dto::ConfigDTO, read_config_error::ConfigError};
 pub struct FsConfigRepository {
-    pub(crate) _init: (),
+    pub _init: (),
 }
 
 impl FsConfigRepository {
