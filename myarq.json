@@ -19,7 +19,10 @@
     "option": "--component",
     "description": "backend DDD component",
     "has_props": true,
-    "prop_type_place":2,
+    "prop_type_place": 2,
+    "prop_prop_place": 1,
+    "prop_prefix": null,
+    "prop_type_separator": ":",
     "templates": [
       {
         "template": "/ddd/domain/IRepositiry.ts",

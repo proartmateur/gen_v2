@@ -1,14 +1,66 @@
 [
   {
+    "name": "component",
+    "path": "/src/<ent>",
+    "short_option": "-c",
+    "option": "--component",
+    "description": "backend DDD component",
+    "has_props": true,
+    "prop_type_place": 2,
+    "prop_prop_place": 1,
+    "prop_prefix": null,
+    "prop_type_separator": ":",
+    "templates": [
+      {
+        "template": "/ddd/domain/IRepositiry.ts",
+        "destination": "<path>/domain/<ent>Repository.ts"
+      },
+      {
+        "template": "/ddd/domain/Model.ts",
+        "destination": "<path>/domain/<ent>.ts",
+        "prop_naming": "<prop>VO",
+        "per_prop_import": "import { <prop>VO } from $dq$<path>/domain/value_objects/<prop>VO$dq$"
+      },
+      {
+        "template": "/ddd/domain/Dto.ts",
+        "destination": "<path>/domain/<ent>DTO.ts"
+      },
+      {
+        "template": "/ddd/domain/ValueObj.ts",
+        "destination": "<path>/domain/value_objects/<prop>VO.ts",
+        "per_prop": true
+      }
+    ]
+  },
+  {
     "name": "atom",
     "path": "/src/atoms",
     "short_option": "-a",
     "option": "--atom",
     "description": "frontend atom component",
+    "has_props": true,
+    "prop_type_place": 2,
+    "prop_prop_place": 1,
+    "prop_prefix": null,
+    "prop_type_separator": ":",
     "templates": [
       {
-        "template": "/atom/component.tsx",
-        "destination": "<path>/<Ent>.tsx"
+        "template": "/atom/component.jsx",
+        "destination": "<path>/<ent>.jsx"
+      }
+    ]
+  },
+  {
+    "name": "raw",
+    "path": "/src/raw",
+    "short_option": "-r",
+    "option": "--raw",
+    "description": "Code without props",
+    "has_props": false,
+    "templates": [
+      {
+        "template": "/raw/component.jsx",
+        "destination": "<path>/<ent>.jsx"
       }
     ]
   }

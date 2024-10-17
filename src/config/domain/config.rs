@@ -1,4 +1,5 @@
 // The Config
+#[derive(Debug)]
 pub struct Config {
     pub author: Option<String>,
     pub author_email: Option<String>,

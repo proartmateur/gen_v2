@@ -1,25 +1,35 @@
 use super::env_vars::EnvVars;
+use super::prop_style_mapper::prop_style_mapper;
+use super::prop_vars::PropVars;
 use crate::arq::arq_item::ArqItem;
 use crate::config::domain::config::Config;
 use crate::utils::string_transform::{snake_to_pascal_case, snake_to_camel_case};
 use chrono::prelude::*;
+use crate::environment::env_prop_mapper::env_prop_mapper;
 
-pub fn env_mapper(template: &ArqItem, name: &String, cfg: &Config, props: Option<String>) -> EnvVars {
-
+pub fn env_mapper(arq_item: &ArqItem, name: &String, cfg: &Config, props: Option<String>) -> EnvVars {
     let mut attrs: Option<String> = None;
     let mut pretty_attrs: Option<String> = None;
+    let mut props_env: Vec<PropVars> = vec![];
+    let space = "*";
 
     match props {
         Some(p) => {
+            
+            let prop_style = prop_style_mapper(arq_item, space);
+            
+            props_env = env_prop_mapper(&p, &prop_style);
+            
             attrs = Some(p.clone());
-            let mut attrs_s = attrs.unwrap();
-            if attrs_s.contains("_") {
+            let attrs_s = attrs.unwrap();
+            /*if attrs_s.contains("_") {
                 attrs = Some(attrs_s.replace("_", " "));
                 attrs_s = attrs_s.replace("_", " ");
             } else {
                 attrs = Some(attrs_s.clone());
-            }
-            pretty_attrs = Some(attrs_s.clone().replace(",", ",\n"));
+            }*/
+            attrs = Some(attrs_s.clone().replace(space, " "));
+            pretty_attrs = Some(attrs_s.clone().replace(",", ",\n").replace(space, " "));
         },
         None => {}
     }
@@ -34,13 +44,11 @@ pub fn env_mapper(template: &ArqItem, name: &String, cfg: &Config, props: Option
         const_name: name.to_uppercase(),
         inline_props: attrs,
         pretty_props: pretty_attrs,
-        snake_separated_props: None,
-        entity_separated_props: None,
-        camel_separated_props: None,
+        props: props_env,
         author_name: cfg.author.clone(),
         author_email: cfg.author_email.clone(),
         now: Some(Utc::now().to_string()),
-        path: template.path.clone(),
+        path: arq_item.path.clone(),
         dq: String::from("\"")
     }
 }

@@ -1,4 +1,5 @@
-#[allow(dead_code)]
+
+#[derive(Debug)]
 pub struct PropVars {
     pub name: String,
     pub prop_type: String,
