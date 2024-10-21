@@ -1,6 +1,7 @@
 pub mod config;
 pub mod langs;
 pub mod environment;
+pub mod replacer;
 pub mod utils;
 pub mod arq;
 pub mod presentation;

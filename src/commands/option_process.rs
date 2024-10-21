@@ -17,7 +17,10 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
         Ok(arq_items) => {
             if let Some(found_item) = find_arq_item_by_option(&arq_items, &first) {
                 
-                // Get Env Vars with props
+                // Get Env Vars with props - ✅
+                // Write a template replacer that change vars for env_vars_values
+                //   V1 Replace only Entity vars and inline_props and pretty props
+                //   v2 Replace prop syntax
                 // For Each Template get Template & Replace
                 //     Write file
 
