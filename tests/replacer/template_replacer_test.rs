@@ -368,7 +368,7 @@ fn template_multiple_prop_vars_flavors_with_types() {
 ( // $camel_prop$-> $prop_type$;\n)
     class $ent$ {
 (        $ent_prop$<type_separator>$prop_type$;\n)
-        constructor($ln$(           <snake_prop>,\n)
+        constructor($ln$(           public <snake_prop>,\n)
          ){}
     }
 
@@ -417,8 +417,8 @@ AGE as int;
        UserName1: str;
        Age: int;
 
-        constructor(\n          user_name_1,
-          age,
+        constructor(\n          public user_name_1,
+          public age,
 
          ){}
     }
