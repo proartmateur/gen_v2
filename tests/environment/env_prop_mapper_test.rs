@@ -24,7 +24,8 @@ fn test_typescript_style_props() {
         snake_name: format!("{}","name"),
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
-        constant_name: format!("{}","name".to_uppercase())
+        constant_name: format!("{}","name".to_uppercase()),
+        type_separator: Some(':'.to_string()),
     };
 
     let expectation_2 = PropVars {
@@ -36,6 +37,7 @@ fn test_typescript_style_props() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: Some(':'.to_string()),
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -75,7 +77,8 @@ fn test_python_typed_style_props() {
         snake_name: format!("{}","name"),
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
-        constant_name: format!("{}","name".to_uppercase())
+        constant_name: format!("{}","name".to_uppercase()),
+        type_separator: Some(": ".to_string()),
     };
 
     let expectation_2 = PropVars {
@@ -87,6 +90,7 @@ fn test_python_typed_style_props() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: Some(": ".to_string()),
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -130,6 +134,7 @@ fn test_java_style() {
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
         constant_name: format!("{}","name".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
     
     let expectation_2 = PropVars {
@@ -141,6 +146,7 @@ fn test_java_style() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -182,6 +188,7 @@ fn test_java_style_props_with_prefix() {
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
         constant_name: format!("{}","name".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
     
     let expectation_2 = PropVars {
@@ -193,6 +200,7 @@ fn test_java_style_props_with_prefix() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -232,6 +240,7 @@ fn test_php_without_types_nor_prefix_style_props() {
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
         constant_name: format!("{}","name".to_uppercase()),
+        type_separator: None,
     };
 
     let expectation_2 = PropVars {
@@ -243,6 +252,7 @@ fn test_php_without_types_nor_prefix_style_props() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: None,
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -283,6 +293,7 @@ fn test_php_without_types_style_props() {
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
         constant_name: format!("{}","name".to_uppercase()),
+        type_separator: None,
     };
 
     let expectation_2 = PropVars {
@@ -294,6 +305,7 @@ fn test_php_without_types_style_props() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: None,
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -334,6 +346,7 @@ fn test_go_style_props() {
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
         constant_name: format!("{}","name".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
 
     let expectation_2 = PropVars {
@@ -345,6 +358,7 @@ fn test_go_style_props() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();
@@ -385,6 +399,7 @@ fn test_go_prefix_style_props() {
         camel_name: format!("{}","name"),
         kebab_name: format!("{}","name"),
         constant_name: format!("{}","name".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
 
     let expectation_2 = PropVars {
@@ -396,6 +411,7 @@ fn test_go_prefix_style_props() {
         camel_name: format!("{}","theAge"),
         kebab_name: format!("{}","the-age"),
         constant_name: format!("{}","the_age".to_uppercase()),
+        type_separator: Some(' '.to_string()),
     };
 
     let mut expected_result: Vec<PropVars> = Vec::new();

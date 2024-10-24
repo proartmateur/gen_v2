@@ -159,6 +159,7 @@ fn test_boilerplate_props_without_types(){
                 camel_name: "nameAtom".to_string(),
                 kebab_name: "name-atom".to_string(),
                 constant_name: "NAME_ATOM".to_string(),
+                type_separator: None
             },
             PropVars  {
                 name: "age".to_string(),
@@ -169,6 +170,7 @@ fn test_boilerplate_props_without_types(){
                 camel_name: "age".to_string(),
                 kebab_name: "age".to_string(),
                 constant_name: "AGE".to_string(),
+                type_separator: None
             },
         ],
         author_name: Some(
@@ -264,6 +266,7 @@ fn test_boilerplate_typed_props(){
                 camel_name: "nameAtom".to_string(),
                 kebab_name: "name-atom".to_string(),
                 constant_name: "NAME_ATOM".to_string(),
+                type_separator: Some(':'.to_string()),
             },
             PropVars  {
                 name: "age".to_string(),
@@ -274,6 +277,7 @@ fn test_boilerplate_typed_props(){
                 camel_name: "age".to_string(),
                 kebab_name: "age".to_string(),
                 constant_name: "AGE".to_string(),
+                type_separator: Some(':'.to_string()),
             },
         ],
         author_name: Some(
@@ -368,6 +372,7 @@ fn test_boilerplate_typed_props_with_prefix(){
                 camel_name: "nameAtom".to_string(),
                 kebab_name: "name-atom".to_string(),
                 constant_name: "NAME_ATOM".to_string(),
+                type_separator: Some(String::from(":")),
             },
             PropVars  {
                 name: "age".to_string(),
@@ -378,6 +383,7 @@ fn test_boilerplate_typed_props_with_prefix(){
                 camel_name: "age".to_string(),
                 kebab_name: "age".to_string(),
                 constant_name: "AGE".to_string(),
+                type_separator: Some(String::from(":")),
             },
         ],
         author_name: Some(

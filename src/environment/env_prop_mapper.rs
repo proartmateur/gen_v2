@@ -26,10 +26,11 @@ pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
                 prop_full_part = item.to_string();
             }
         }
-
+        let mut type_separator: Option<String> = None;
         //check  if have type
         match &style.type_separator {
             Some(s) => {
+                type_separator = Some(s.clone());
                 prop_full_part_clean =  prop_full_part.replace(space, " ").to_string();
                 let separa = s.to_string();
                 let pst: Vec<&str> = prop_full_part_clean.split(&separa).collect();
@@ -47,6 +48,7 @@ pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
         let prop_vars: PropVars = PropVars {
             name: format!("{}", prop_name),
             prop_type: format!("{}", prop_type),
+            type_separator: type_separator,
             prefix: format!("{}", prefix_part.replace(space, " ")),
             entity_name: snake_to_pascal_case(&prop_name),
             snake_name: format!("{}", &prop_name.to_lowercase()),
