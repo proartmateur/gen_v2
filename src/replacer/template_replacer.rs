@@ -1,21 +1,26 @@
 use regex::Regex;
 use crate::environment::{env_vars::EnvVars, prop_vars::PropVars};
 
-fn clean_prop_value(prop_template: &str, val:&str, var_name: &str) -> String {
+fn clean_prop_value(prop_template: &str, val:&str, var_name: &str, prop: &PropVars) -> String {
+    let var_name_a = format!(r#"${}$"#,var_name);
+    let var_name_b = format!(r#"<{}>"#,var_name);
     let result = prop_template
-    .replace(var_name, val)
-    .replace("$", "")
-    .replace("<", "")
-    .replace(">", "")
-    .replace(r#"("#, "")
-    .replace(r#")"#, "");
+    .replace("<type_separator>", prop.type_separator.clone().unwrap().as_str())
+    .replace("$type_separator$", prop.type_separator.clone().unwrap().as_str())
+    .replace("$prop_type$", prop.prop_type.clone().as_str())
+    .replace("<prop_type>", prop.prop_type.clone().as_str())
+    .replace(var_name_a.as_str(), val)
+    .replace(var_name_b.as_str(), val)
+    .replace(r#"("#,"")
+    .replace(r#")"#,"");
+    
     return result;
 }
 fn get_prop_value(prop_template: &str, prop: &PropVars) -> String {
     let mut res: String = String::from("");
     
     if prop_template.contains("ent_prop") {
-        res = clean_prop_value(&prop_template, &prop.entity_name,"ent_prop");
+        res = clean_prop_value(&prop_template, &prop.entity_name,"ent_prop", prop);
     }
 
     return res;
