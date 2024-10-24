@@ -2,23 +2,20 @@ use crate::utils::string_transform::{snake_to_camel_case, snake_to_pascal_case};
 use super::{prop_style::PropStyle, prop_vars::PropVars};
 
 pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
-    let space: &str = "*";
+    let space: &str = &style.prefix_space.clone().unwrap_or("*".to_string());
     let mut result: Vec<PropVars> = Vec::new();
-    //let res_prefix = format!("{}", "");
     let prop_split: Vec<&str> = data.split(",").collect();
-    print!("{:?}", &prop_split);
 
     for item in prop_split {
         // prefix separation
         let mut prefix_part = String::new();
         let mut prop_full_part = String::new();
         let prop_full_part_clean: String;
-        let prop_name: String;
+        let mut prop_name = String::new();
         let mut prop_type = String::new();
 
         match &style.prefix {
             Some(prefix) => {
-                print!("Hay Prefix {}", item);
                 let p: Vec<&str> = item.split(prefix).collect();
                 if p.len() > 1 {
                     prefix_part = prefix.to_string();
@@ -26,14 +23,14 @@ pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
                 }
             }
             None => {
-                print!("NO Prefix {}", item);
                 prop_full_part = item.to_string();
             }
         }
-
+        let mut type_separator: Option<String> = None;
         //check  if have type
         match &style.type_separator {
             Some(s) => {
+                type_separator = Some(s.clone());
                 prop_full_part_clean =  prop_full_part.replace(space, " ").to_string();
                 let separa = s.to_string();
                 let pst: Vec<&str> = prop_full_part_clean.split(&separa).collect();
@@ -51,7 +48,8 @@ pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
         let prop_vars: PropVars = PropVars {
             name: format!("{}", prop_name),
             prop_type: format!("{}", prop_type),
-            prefix: format!("{}", prefix_part.replace("_", " ")),
+            type_separator: type_separator,
+            prefix: format!("{}", prefix_part.replace(space, " ")),
             entity_name: snake_to_pascal_case(&prop_name),
             snake_name: format!("{}", &prop_name.to_lowercase()),
             camel_name: format!("{}", snake_to_camel_case(&prop_name)),

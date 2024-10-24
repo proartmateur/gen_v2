@@ -1,6 +1,5 @@
-use std::collections::HashMap;
+use super::prop_vars::PropVars;
 
-#[allow(dead_code)]
 #[derive(Debug)]
 pub struct EnvVars {
     pub raw_name: String,
@@ -11,9 +10,7 @@ pub struct EnvVars {
     pub const_name: String,
     pub inline_props: Option<String>,
     pub pretty_props: Option<String>,
-    pub snake_separated_props: Option<HashMap<String, String>>,
-    pub entity_separated_props: Option<HashMap<String, String>>,
-    pub camel_separated_props: Option<HashMap<String, String>>,
+    pub props: Vec<PropVars>,
     pub author_name: Option<String>,
     pub author_email: Option<String>,
     pub now: Option<String>,

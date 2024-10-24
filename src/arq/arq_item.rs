@@ -10,5 +10,8 @@ pub struct ArqItem {
     pub description: String,
     pub templates: Vec<ArqTemplate>,
     pub has_props: Option<bool>,
-    pub prop_type_place: Option<u8>
+    pub prop_type_place: Option<usize>,
+    pub prop_prop_place: Option<usize>,
+    pub prop_prefix: Option<String>,
+    pub prop_type_separator: Option<String>,
 }
