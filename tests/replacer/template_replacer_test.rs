@@ -205,8 +205,8 @@ fn template_prop_vars() {
     //#region Then
     let raw_expected: &'static str = "
     class MartilloThor {
-        UserName1;
-        Age;
+       UserName1;
+       Age;
 
         constructor(
 
@@ -218,7 +218,6 @@ fn template_prop_vars() {
     assert_eq!(result, expected);
     //#region
 }
-
 
 
 #[test]
@@ -272,12 +271,156 @@ fn template_prop_vars_with_types() {
     //#region Then
     let raw_expected: &'static str = "
     class MartilloThor {
-        UserName1: str;
-        Age: int;
+       UserName1: str;
+       Age: int;
 
         constructor(
 
         ){}
+    }
+
+    ";
+    let expected = raw_expected.to_string();
+    assert_eq!(result, expected);
+    //#region
+}
+
+
+#[test]
+fn template_prop_vars_with_types_php_style() {
+    //#region GIVEN
+    // User write a call to gen in the terminal
+    // CLI example:
+    // gen --raw maRtillo_Thor
+    // AND
+    // In arq.json I have an ArqItem for option --raw
+    // AND
+    // I have a Config
+    let raw_template: &'static str = "
+    class $ent$ {
+(        $$snake_prop$<type_separator>$prop_type$;\n)
+        constructor(
+
+        ){}
+    }
+
+    ";
+    let template = raw_template.to_string();
+    let name = String::from("maRtillo_Thor");
+    let props = String::from("User_name_1: str,age: int");
+    let arq_item = ArqItem {
+        name: "raw".to_string(),
+        path: "/src/raw".to_string(),
+        short_option: "-r".to_string(),
+        option: "--raw".to_string(),
+        description: "Code with props".to_string(),
+        templates: vec![ArqTemplate {
+            template: "/raw/component.jsx".to_string(),
+            destination: "<path>/<ent>.jsx".to_string(),
+            per_prop: None,
+            prop_naming: None,
+            per_prop_import: None,
+        }],
+        has_props: Some(true),
+        prop_type_place: Some(2),
+        prop_prop_place: Some(1),
+        prop_prefix: None,
+        prop_type_separator: Some(String::from(": ")),
+    };
+    let config = get_config();
+    let env_vars = env_mapper(&arq_item, &name, &config, Some(props));
+    //#region
+
+    //When
+    let result = template_replacer(&template, env_vars);
+
+    //#region Then
+    let raw_expected: &'static str = "
+    class MartilloThor {
+       $user_name_1: str;
+       $age: int;
+
+        constructor(
+
+        ){}
+    }
+
+    ";
+    let expected = raw_expected.to_string();
+    assert_eq!(result, expected);
+    //#region
+}
+
+
+#[test]
+fn template_multiple_prop_vars_flavors_with_types() {
+    //#region GIVEN
+    // User write a call to gen in the terminal
+    // CLI example:
+    // gen --raw maRtillo_Thor
+    // AND
+    // In arq.json I have an ArqItem for option --raw
+    // AND
+    // I have a Config
+    let raw_template: &'static str = "
+( <const_prop> as $prop_type$;\n)
+( // $kebab_prop$-> $prop_type$;\n)
+( // $camel_prop$-> $prop_type$;\n)
+    class $ent$ {
+(        $ent_prop$<type_separator>$prop_type$;\n)
+        constructor($ln$(           <snake_prop>,\n)
+         ){}
+    }
+
+    ";
+    let template = raw_template.to_string();
+    let name = String::from("maRtillo_Thor");
+    let props = String::from("User_name_1: str,age: int");
+    let arq_item = ArqItem {
+        name: "raw".to_string(),
+        path: "/src/raw".to_string(),
+        short_option: "-r".to_string(),
+        option: "--raw".to_string(),
+        description: "Code with props".to_string(),
+        templates: vec![ArqTemplate {
+            template: "/raw/component.jsx".to_string(),
+            destination: "<path>/<ent>.jsx".to_string(),
+            per_prop: None,
+            prop_naming: None,
+            per_prop_import: None,
+        }],
+        has_props: Some(true),
+        prop_type_place: Some(2),
+        prop_prop_place: Some(1),
+        prop_prefix: None,
+        prop_type_separator: Some(String::from(": ")),
+    };
+    let config = get_config();
+    let env_vars = env_mapper(&arq_item, &name, &config, Some(props));
+    //#region
+
+    //When
+    let result = template_replacer(&template, env_vars);
+
+    //#region Then
+    let raw_expected: &'static str = "
+USER_NAME_1 as str;
+AGE as int;
+
+// user-name-1-> str;
+// age-> int;
+
+// userName1-> str;
+// age-> int;
+
+    class MartilloThor {
+       UserName1: str;
+       Age: int;
+
+        constructor(\n          user_name_1,
+          age,
+
+         ){}
     }
 
     ";

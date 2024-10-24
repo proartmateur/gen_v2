@@ -11,7 +11,7 @@ fn clean_prop_value(prop_template: &str, val:&str, var_name: &str, prop: &PropVa
     .replace("<prop_type>", prop.prop_type.clone().as_str())
     .replace(var_name_a.as_str(), val)
     .replace(var_name_b.as_str(), val)
-    .replace(r#"("#,"")
+    .replace(r#"( "#,"")
     .replace(r#")"#,"");
     
     return result;
@@ -21,7 +21,17 @@ fn get_prop_value(prop_template: &str, prop: &PropVars) -> String {
     
     if prop_template.contains("ent_prop") {
         res = clean_prop_value(&prop_template, &prop.entity_name,"ent_prop", prop);
-    }
+    } else if prop_template.contains("snake_prop") {
+        res = clean_prop_value(&prop_template, &prop.snake_name,"snake_prop", prop);
+    } else if prop_template.contains("kebab_prop") {
+        res = clean_prop_value(&prop_template, &prop.kebab_name,"kebab_prop", prop);
+    } else if prop_template.contains("const_prop") {
+        res = clean_prop_value(&prop_template, &prop.constant_name,"const_prop", prop);
+    } else if prop_template.contains("camel_prop") {
+        res = clean_prop_value(&prop_template, &prop.camel_name,"camel_prop", prop);
+    } else if prop_template.contains("prop") {
+        res = clean_prop_value(&prop_template, &prop.name,"prop", prop);
+    } 
 
     return res;
 }
@@ -64,22 +74,23 @@ pub fn template_replacer(template: &String, vars: EnvVars) -> String {
     let mut result = String::from(template);
     
     let res: [Regex;6] = [ 
-        Regex::new(r"\(\s*.*?(\$prop\$|<prop>).*?\s*\)").unwrap(),
-        Regex::new(r"\(\s*.*?(\$ent_prop\$|<ent_prop>).*?\s*\)").unwrap(),
-        Regex::new(r"\(\s*.*?(\$snake_prop\$|<snake_prop>).*?\s*\)").unwrap(),
-        Regex::new(r"\(\s*.*?(\$camel_prop\$|<camel_prop>).*?\s*\)").unwrap(),
-        Regex::new(r"\(\s*.*?(\$kebab_prop\$|<kebab_prop>).*?\s*\)").unwrap(),
-        Regex::new(r"\(\s*.*?(\$const_prop\$|<const_prop>).*?\s*\)").unwrap(),
+        Regex::new(r"\(\s *.*?(\$prop\$|<prop>).*?\s*\)").unwrap(),
+        Regex::new(r"\(\s *.*?(\$ent_prop\$|<ent_prop>).*?\s*\)").unwrap(),
+        Regex::new(r"\(\s *.*?(\$snake_prop\$|<snake_prop>).*?\s*\)").unwrap(),
+        Regex::new(r"\(\s *.*?(\$camel_prop\$|<camel_prop>).*?\s*\)").unwrap(),
+        Regex::new(r"\(\s *.*?(\$kebab_prop\$|<kebab_prop>).*?\s*\)").unwrap(),
+        Regex::new(r"\(\s *.*?(\$const_prop\$|<const_prop>).*?\s*\)").unwrap(),
      ];
 
-    print!("1.- {}",result);
-    if vars.props.len() > 0 {
-        let t = replace_props(&result, &vars, &res[1]);
-        print!("2.- {}",t);
-        result = format!("{}",t);
+    
+    for reg in res.iter() {
+        if vars.props.len() > 0 {
+            let t = replace_props(&result, &vars, &reg);
+            result = format!("{}",t);
+        }
     }
 
-    print!("3.- {}",result);
+    
     
     result = result
         .replace("<raw_name>", &vars.author_email.clone().unwrap_or("".to_string()))
@@ -107,7 +118,9 @@ pub fn template_replacer(template: &String, vars: EnvVars) -> String {
         .replace("<path>", &vars.path.clone())
         .replace("$path$", &vars.path.clone())
         .replace("<dq>", &vars.dq.clone())
-        .replace("$dq$", &vars.dq.clone());
-    print!("4.- {}",result);
+        .replace("$dq$", &vars.dq.clone())
+        .replace("<ln>", "\n")
+        .replace("$ln$", "\n");
+    
     return String::from(result);
 }
