@@ -2,6 +2,6 @@
     "headers_doc": false,
     "author": "myself",
     "author_email": "myself@example.com",
-    "templates_root": "/Users/ennima/Devs/Tools/gen_v2/gen/.gen_cli/templates",
+    "templates_root": "/home/yuexing/Dev/Tools/gen_v2/.gen_cli/templates",
     "arq_file":"arq.json"
 }

@@ -35,20 +35,31 @@ pub fn env_mapper(arq_item: &ArqItem, name: &String, cfg: &Config, props: Option
     }
 
     //TODO Prop Separation
+    let entity_name = snake_to_pascal_case(&name.to_lowercase().as_str());
+    let camel_name = snake_to_camel_case(&name.to_lowercase().as_str());
+    let snake_name = name.to_lowercase();
+    let kebab_name = name.to_lowercase().replace("_", "-");
+    let const_name = name.to_uppercase();
+    
+    // Process path to replace entity placeholders
+    let processed_path = arq_item.path
+        .replace("<ent>", &entity_name)
+        .replace("$ent$", &entity_name);
+    
     return EnvVars {
         raw_name: name.clone(),
-        entity_name: snake_to_pascal_case(&name.to_lowercase().as_str()),
-        camel_name: snake_to_camel_case(&name.to_lowercase().as_str()),
-        snake_name: name.to_lowercase(),
-        kebab_name: name.to_lowercase().replace("_", "-"),
-        const_name: name.to_uppercase(),
+        entity_name,
+        camel_name,
+        snake_name,
+        kebab_name,
+        const_name,
         inline_props: attrs,
         pretty_props: pretty_attrs,
         props: props_env,
         author_name: cfg.author.clone(),
         author_email: cfg.author_email.clone(),
         now: Some(Utc::now().to_string()),
-        path: arq_item.path.clone(),
+        path: processed_path,
         dq: String::from("\"")
     }
 }

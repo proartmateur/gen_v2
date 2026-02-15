@@ -20,7 +20,7 @@ pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
         let cfg_repo = FsConfigRepository { _init: () };
         let config: Config = cfg_repo.read();
 
-        option_process(args, &config, help_callback);
+        option_process(args, &config, help_callback, lang);
         
     } else {
         // command

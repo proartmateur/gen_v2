@@ -1,5 +1,5 @@
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PropVars {
     pub name: String,
     pub prop_type: String,

@@ -1,6 +1,6 @@
 use super::prop_vars::PropVars;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct EnvVars {
     pub raw_name: String,
     pub entity_name: String,

@@ -13,13 +13,22 @@ Herramienta para escribir código de manera rápida y adaptada a tu propia arqui
 
 # Guía de inicio rápido
 1. Descarga una versión compilada para tu sistema operativo y pega en la raíz de tu proyecto.
-2. Inicializa el CLI
+
+2. Antes de iniciar hay que modificar en: gen_config.json la ruta a .gen_cli/templates
+
+```json
+{
+    "templates_root": "ruta/absoluta/al/path/de/templates",
+}
+```
+
+3. Inicializa el CLI
 ```bash
 ./gen init
 ```
 Este comando creará un archivo de configuración *"gen_config.json"* y el directorio *".gen_cli/templates"* en la raíz de tu proyecto.
 
-3. Crea tu archivo de arquitectura.
+4. Crea tu archivo de arquitectura.
 ```bash
 ./gen arq
 ```
@@ -27,7 +36,7 @@ Este comando creará un archivo *"arq.json"* con un ejemplo y su respectivo temp
 
 Elmotivo de este ejemplo es explicar cómo estructurar una arquitectura y sus templates.
 
-4. Comenzar a utilizar
+5. Comenzar a utilizar
 
 Si todo salió bien, podemos crear un nuevo átomo de la siguiente forma:
 
