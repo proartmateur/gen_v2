@@ -4,6 +4,8 @@
 
 Herramienta para escribir código de manera rápida y adaptada a tu propia arquitectura.
 
+**Quick Start Guide:** [Quick Start Guide](guia_de_inicio_rapido.md)
+
 ## ¿Cómo lo uso?
 0. Instalar en la raíz de tu proyecto
 1. Crear tu arquitectura en formato JSON en la raíz de tu proyecto,
