@@ -20,10 +20,8 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
         Ok(arq_items) => {
             if let Some(found_item) = find_arq_item_by_option(&arq_items, &first) {
                 
-                println!("\nFound item by short_option: {:#?}\n\n", &found_item);
                 let name = &args[2];
                 let env_vars = env_mapper(&found_item, &name, config, props.clone());
-                print!("\n{:#?}\n\n", env_vars);
 
                 // Process templates
                 let mut imports_to_add: Vec<String> = Vec::new();

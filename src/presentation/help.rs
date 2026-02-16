@@ -27,5 +27,11 @@ pub fn help() {
         "  arq".to_string().bold().yellow(),
         "Create an arq.json file"
     );
+
+    print!(
+        "{}  {}\n",
+        "  man:vars".to_string().bold().yellow(),
+        "Show available variables for templates"
+    );
     print!("\n\n");
 }

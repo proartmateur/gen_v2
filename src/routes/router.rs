@@ -24,6 +24,7 @@ pub fn router(args: &Vec<String>, lang: &String, help_callback: fn() -> ()) {
         
     } else {
         // command
+        // TODO: Crear opcion para que se genere un listado de comandos a partir de arq.json
         match args[1].as_str() {
             "init" => {
                 init(strings);
