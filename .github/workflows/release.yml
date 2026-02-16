@@ -1,0 +1,125 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on tags like v1.0.0, v2.1.3, etc.
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: GenCLI ${{ github.ref_name }}
+          body: |
+            ## GenCLI ${{ github.ref_name }}
+            
+            Fast Rust-based code scaffolding tool for generating boilerplate code.
+            
+            ### Downloads
+            
+            Choose the binary for your platform:
+            
+            - **Windows 10+**: `gen-${{ github.ref_name }}-x86_64-pc-windows-msvc.zip`
+            - **Linux (Ubuntu, Arch, etc.)**: `gen-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz`
+            - **macOS Intel**: `gen-${{ github.ref_name }}-x86_64-apple-darwin.tar.gz`
+            - **macOS Apple Silicon (M1/M2)**: `gen-${{ github.ref_name }}-aarch64-apple-darwin.tar.gz`
+            
+            ### Installation
+            
+            1. Download the archive for your platform
+            2. Extract the binary
+            3. Move to your PATH (optional):
+               - Linux/macOS: `sudo mv gen /usr/local/bin/`
+               - Windows: Add to PATH or use from current directory
+            
+            ### Quick Start
+            
+            ```bash
+            # Configure
+            gen init
+            
+            # Generate DDD component
+            gen -c User "name:string,email:string"
+            
+            # View help
+            gen --help
+            ```
+            
+            For more information, see [Quick Start Guide](quick_start_guide.md)
+          draft: false
+          prerelease: false
+
+  build-release:
+    name: Build ${{ matrix.target }}
+    needs: create-release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            archive: zip
+            
+          # Linux
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            archive: tar.gz
+            
+          # macOS Intel
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            archive: tar.gz
+            
+          # macOS Apple Silicon
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            archive: tar.gz
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+
+      - name: Build release binary
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Prepare artifacts (Unix)
+        if: matrix.archive == 'tar.gz'
+        run: |
+          cd target/${{ matrix.target }}/release
+          tar -czf ../../../gen-${{ github.ref_name }}-${{ matrix.target }}.tar.gz gen
+          cd ../../..
+
+      - name: Prepare artifacts (Windows)
+        if: matrix.archive == 'zip'
+        run: |
+          cd target/${{ matrix.target }}/release
+          7z a ../../../gen-${{ github.ref_name }}-${{ matrix.target }}.zip gen.exe
+          cd ../../..
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./gen-${{ github.ref_name }}-${{ matrix.target }}.${{ matrix.archive }}
+          asset_name: gen-${{ github.ref_name }}-${{ matrix.target }}.${{ matrix.archive }}
+          asset_content_type: ${{ matrix.archive == 'zip' && 'application/zip' || 'application/gzip' }}
