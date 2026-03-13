@@ -75,9 +75,8 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
                             let dest = template_config.destination
                                 .replace("<prop>", &prop.entity_name)
                                 .replace("$prop$", &prop.entity_name)
-                                .replace("<ent>", &env_vars.entity_name)
-                                .replace("$ent$", &env_vars.entity_name)
-                                .replace("<path>", &env_vars.path)
+                            .replace("<Ent>", &env_vars.entity_name)
+                            .replace("$Ent$", &env_vars.entity_name)
                                 .replace("$path$", &env_vars.path);
 
                             let final_destination = format!("{}{}", config.current_dir, dest);
@@ -114,6 +113,8 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
                         println!("{} {}", lang_strings["template.processing"], template_config.destination);
 
                         let dest = template_config.destination
+                            .replace("<Ent>", &env_vars.entity_name)
+                            .replace("$Ent$", &env_vars.entity_name)
                             .replace("<ent>", &env_vars.entity_name)
                             .replace("$ent$", &env_vars.entity_name)
                             .replace("<path>", &env_vars.path)

@@ -7,9 +7,9 @@ pub fn init(lang: &LazyLock<HashMap<&str, &str>> ) -> () {
     let template_dir = ".gen_cli/templates";
     if Path::new(&template_dir).exists() {
         print!("{} {}\n\n", &template_dir, lang["init.already_exists"]);
-        return;
+    } else {
+        fs::create_dir_all(&template_dir).expect(format!("{} {}", lang["init.mkdir_error"], &template_dir).as_str());
     }
-    fs::create_dir_all(&template_dir).expect(format!("{} {}", lang["init.mkdir_error"], &template_dir).as_str());
 
     let cfg_file ="gen_config.json";
     if Path::new(&cfg_file).exists() {
@@ -25,7 +25,7 @@ pub fn init(lang: &LazyLock<HashMap<&str, &str>> ) -> () {
     \"templates_root\": \"$CWD$\",
     \"arq_file\":\"arq.json\"
 }";
-    let contents = cfg.replace("$CWD$", &template_root.display().to_string());
+    let contents = cfg.replace("$CWD$", &template_root.display().to_string().replace('\\', "/"));
     fs::write(&cfg_file, contents).expect(format!("{} {}",lang["init.write_file_error"], &cfg_file).as_str());
     print!("\n{}\n\n\n",lang["init.ready_for_init"]);
 }

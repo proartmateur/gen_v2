@@ -98,6 +98,10 @@ pub fn template_replacer(template: &String, vars: EnvVars) -> String {
     result = result
         .replace("<raw_name>", &vars.raw_name)
         .replace("$raw_name$", &vars.raw_name)
+        .replace("<ENT>", &vars.entity_name)
+        .replace("$ENT$", &vars.entity_name)
+        .replace("<Ent>", &vars.entity_name)
+        .replace("$Ent$", &vars.entity_name)
         .replace("<ent>", &vars.entity_name)
         .replace("$ent$", &vars.entity_name)
         .replace("<camel_name>", &vars.camel_name)

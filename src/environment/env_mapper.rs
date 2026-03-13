@@ -43,6 +43,8 @@ pub fn env_mapper(arq_item: &ArqItem, name: &String, cfg: &Config, props: Option
     
     // Process path to replace entity placeholders
     let processed_path = arq_item.path
+        .replace("<Ent>", &entity_name)
+        .replace("$Ent$", &entity_name)
         .replace("<ent>", &entity_name)
         .replace("$ent$", &entity_name);
     

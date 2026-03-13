@@ -1,6 +1,6 @@
 {$FILE_HEADER$}
 
-export interface $ENT$Props{}
-export function $ENT$({}:$ENT$Props){
+export interface $ent$Props{}
+export function $ent$({$inline_props$}:$ent$Props){
     return <></>
 }
