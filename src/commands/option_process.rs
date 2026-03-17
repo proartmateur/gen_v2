@@ -75,8 +75,9 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
                             let dest = template_config.destination
                                 .replace("<prop>", &prop.entity_name)
                                 .replace("$prop$", &prop.entity_name)
-                            .replace("<Ent>", &env_vars.entity_name)
-                            .replace("$Ent$", &env_vars.entity_name)
+                                .replace("<Ent>", &env_vars.entity_name)
+                                .replace("$Ent$", &env_vars.entity_name)
+                                .replace("<path>", &env_vars.path)
                                 .replace("$path$", &env_vars.path);
 
                             let final_destination = format!("{}{}", config.current_dir, dest);

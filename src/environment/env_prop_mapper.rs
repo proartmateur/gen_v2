@@ -11,7 +11,7 @@ pub fn env_prop_mapper(data: &String, style: &PropStyle) -> Vec<PropVars> {
         let mut prefix_part = String::new();
         let mut prop_full_part = String::new();
         let prop_full_part_clean: String;
-        let mut prop_name = String::new();
+        let prop_name;
         let mut prop_type = String::new();
 
         match &style.prefix {
