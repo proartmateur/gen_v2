@@ -46,7 +46,17 @@ pub fn env_mapper(arq_item: &ArqItem, name: &String, cfg: &Config, props: Option
         .replace("<Ent>", &entity_name)
         .replace("$Ent$", &entity_name)
         .replace("<ent>", &entity_name)
-        .replace("$ent$", &entity_name);
+        .replace("$ent$", &entity_name)
+        .replace("<camel_name>", &camel_name)
+        .replace("$camel_name$", &camel_name)
+        .replace("<snake_name>", &snake_name)
+        .replace("$snake_name$", &snake_name)
+        .replace("<kebab_name>", &kebab_name)
+        .replace("$kebab_name$", &kebab_name)
+        .replace("<const_name>", &const_name)
+        .replace("$const_name$", &const_name)
+        .replace("<raw_name>", name)
+        .replace("$raw_name$", name);
     
     return EnvVars {
         raw_name: name.clone(),
