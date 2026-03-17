@@ -114,10 +114,22 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
                         println!("{} {}", lang_strings["template.processing"], template_config.destination);
 
                         let dest = template_config.destination
+                            .replace("<raw_name>", &env_vars.raw_name)
+                            .replace("$raw_name$", &env_vars.raw_name)
+                            .replace("<ENT>", &env_vars.entity_name)
+                            .replace("$ENT$", &env_vars.entity_name)
                             .replace("<Ent>", &env_vars.entity_name)
                             .replace("$Ent$", &env_vars.entity_name)
                             .replace("<ent>", &env_vars.entity_name)
                             .replace("$ent$", &env_vars.entity_name)
+                            .replace("<snake_name>", &env_vars.snake_name)
+                            .replace("$snake_name$", &env_vars.snake_name)
+                            .replace("<camel_name>", &env_vars.camel_name)
+                            .replace("$camel_name$", &env_vars.camel_name)
+                            .replace("<kebab_name>", &env_vars.kebab_name)
+                            .replace("$kebab_name$", &env_vars.kebab_name)
+                            .replace("<const_name>", &env_vars.const_name)
+                            .replace("$const_name$", &env_vars.const_name)
                             .replace("<path>", &env_vars.path)
                             .replace("$path$", &env_vars.path);
 
