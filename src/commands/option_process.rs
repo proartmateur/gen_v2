@@ -3,6 +3,7 @@ use crate::arq::arq_io::read_arq_json;
 use crate::arq::arq_usecases::find_arq_item_by_option;
 use crate::config::domain::config::Config;
 use crate::environment::env_mapper::env_mapper;
+use crate::environment::env_vars::EnvVars;
 use crate::replacer::template_replacer::template_replacer;
 use crate::langs::get_lang;
 
@@ -87,7 +88,7 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
                             single_prop_env.props = vec![prop.clone()];
 
                             // Apply template replacer with single prop context
-                            let mut processed = template_replacer(&template_content, single_prop_env);
+                            let mut processed = template_replacer(&template_content, single_prop_env.clone());
                             
                             // Replace specific prop variables (since we have only one prop now)
                             processed = processed
@@ -108,6 +109,10 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
 
                             // Write file
                             write_file(&final_destination, &processed, lang_strings);
+
+                            if let Some(cmd) = &template_config.on_done {
+                                run_on_done(cmd, &final_destination, &single_prop_env);
+                            }
                         }
                     } else {
                         // Regular template (one file)
@@ -153,6 +158,10 @@ pub fn option_process(args: &Vec<String>, config: &Config, help_callback: fn() -
 
                         // Write file
                         write_file(&final_destination, &processed, lang_strings);
+
+                        if let Some(cmd) = &template_config.on_done {
+                            run_on_done(cmd, &final_destination, &env_vars);
+                        }
                     }
                 }
 
@@ -222,4 +231,38 @@ fn write_file(file_path: &str, content: &str, lang: &std::collections::HashMap<&
     }
 
     println!("{} {}", lang["template.success"], file_path);
+}
+
+fn run_on_done(cmd: &str, destination: &str, env: &EnvVars) {
+    let resolved = cmd
+        .replace("<destination>", destination)
+        .replace("<path>", &env.path)
+        .replace("<ent>", &env.entity_name)
+        .replace("<Ent>", &env.entity_name)
+        .replace("<ENT>", &env.entity_name)
+        .replace("<raw_name>", &env.raw_name)
+        .replace("<camel_name>", &env.camel_name)
+        .replace("<snake_name>", &env.snake_name)
+        .replace("<kebab_name>", &env.kebab_name)
+        .replace("<const_name>", &env.const_name)
+        .replace("<inline_props>", env.inline_props.as_deref().unwrap_or(""))
+        .replace("<pretty_props>", env.pretty_props.as_deref().unwrap_or(""))
+        .replace("<author_name>", env.author_name.as_deref().unwrap_or(""))
+        .replace("<author_email>", env.author_email.as_deref().unwrap_or(""))
+        .replace("<now>", env.now.as_deref().unwrap_or(""))
+        .replace("<dq>", &env.dq);
+
+    println!("⚙  onDone: {}", resolved);
+
+    #[cfg(target_os = "windows")]
+    let result = std::process::Command::new("cmd").args(["/C", &resolved]).status();
+
+    #[cfg(not(target_os = "windows"))]
+    let result = std::process::Command::new("sh").args(["-c", &resolved]).status();
+
+    match result {
+        Ok(status) if status.success() => {}
+        Ok(status) => eprintln!("onDone: command exited with status {}", status),
+        Err(e) => eprintln!("onDone: failed to run command - {}", e),
+    }
 }

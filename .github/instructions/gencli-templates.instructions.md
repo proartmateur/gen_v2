@@ -61,7 +61,10 @@ Templates live inside `.gen_cli/templates/` (configurable via `gen_config.json`)
 
   // --- PER-PROP OPTIONS (optional) ---
   "per_prop": true,                                     // generate ONE FILE per property
-  "per_prop_import": "from <path>.value_objects import <prop>VO" // import line collected into $per_prop_imports$
+  "per_prop_import": "from <path>.value_objects import <prop>VO", // import line collected into $per_prop_imports$
+
+  // --- POST-WRITE HOOK (optional) ---
+  "onDone": "npx eslint --fix <destination>"            // shell command run after each file is written
 }
 ```
 
@@ -301,6 +304,74 @@ Use `$snake_name$` for Python module conventions, `<ent>` for TypeScript/Java co
 
 ---
 
+## `onDone` — Post-Write Hook
+
+Use `onDone` in a template entry to run a shell command **immediately after each file is written to disk**. This is useful for triggering linters, formatters, logging, agent pipelines, or any external tool.
+
+### Behavior
+
+- Runs **once per file written** (for `per_prop: true` templates, once per generated prop file).
+- Runs **cross-platform**: uses `cmd /C` on Windows, `sh -c` on Unix/macOS.
+- If the command **exits with a non-zero code**, GenCLI prints an error to stderr and continues.
+- All entity variables are available for interpolation inside the command string.
+
+### All variables available in `onDone`
+
+| Variable | Value |
+|---|---|
+| `<destination>` | Absolute path of the file just written |
+| `<path>` | Resolved base path from the arq item |
+| `<ent>` / `<Ent>` / `<ENT>` | Entity name (PascalCase) |
+| `<raw_name>` | Entity name exactly as typed in the CLI |
+| `<camel_name>` | camelCase entity name |
+| `<snake_name>` | snake_case entity name |
+| `<kebab_name>` | kebab-case entity name |
+| `<const_name>` | CONSTANT_CASE entity name |
+| `<inline_props>` | All props as a single inline string |
+| `<pretty_props>` | All props formatted |
+| `<author_name>` | From gen_config.json |
+| `<author_email>` | From gen_config.json |
+| `<now>` | Current date/time |
+| `<dq>` | Double-quote character `"` |
+
+### Examples
+
+```json
+// Append generated file path to a log
+{ "onDone": "echo <destination> >> gen.log" }
+
+// Auto-fix linting after generation
+{ "onDone": "npx eslint --fix <destination>" }
+
+// Format with Prettier
+{ "onDone": "npx prettier --write <destination>" }
+
+// Run Python formatter
+{ "onDone": "black <destination>" }
+
+// Pass to an AI agent script
+{ "onDone": "node scripts/ai-review.js <destination> <ent>" }
+```
+
+### Full template entry example with `onDone`
+
+```json
+{
+  "template": "/ddd/domain/Model.ts",
+  "destination": "<path>/domain/<ent>.ts",
+  "per_prop_import": "import { <prop>VO } from $dq$<path>/domain/value_objects/<prop>VO$dq$",
+  "onDone": "npx eslint --fix <destination>"
+}
+```
+
+### Notes
+
+- `onDone` is **optional** — omitting it is the same as not having a hook.
+- The command string is passed as-is to the shell after variable replacement; quote paths if they may contain spaces.
+- For `per_prop: true` templates, the hook fires once per prop with `<destination>` pointing to that prop's specific file.
+
+---
+
 ## Complete Example: Python MVC Module
 
 ### arq.json entry
@@ -385,3 +456,4 @@ class PetraResponse(BaseModel):
 - [ ] Template file path in arq.json is relative to the templates root (starts with `/`)
 - [ ] `destination` starts with `<path>/` to use the resolved base path
 - [ ] For Python conventions: use `$snake_name$` in `path`; for TypeScript: use `<ent>`
+- [ ] If using `onDone`: use `<destination>` for the file path and any entity variable in the command string
