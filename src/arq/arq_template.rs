@@ -7,4 +7,6 @@ pub struct ArqTemplate {
     pub per_prop: Option<bool>,
     pub prop_naming: Option<String>,
     pub per_prop_import: Option<String>,
+    #[serde(rename = "onDone")]
+    pub on_done: Option<String>,
 }

@@ -46,7 +46,8 @@
     "templates": [
       {
         "template": "/atom/component.jsx",
-        "destination": "<path>/<ent>.jsx"
+        "destination": "<path>/<ent>.jsx",
+        "onDone": "echo <destination> >> gen.log"
       }
     ]
   },
