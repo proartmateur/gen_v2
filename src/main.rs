@@ -4,7 +4,7 @@ use std::env;
 use gen::routes::router::router;
 
 fn main() {
-    let version = "2.0.0".to_string();
+    let version = "2.1.0".to_string();
     let lang = "es".to_string();
     cli_header(&version, &lang);
     /*___ ARGS ___ */
